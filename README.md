@@ -1,2 +1,0 @@
-# Typographica
-Project logo generator
