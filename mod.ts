@@ -11,20 +11,23 @@ interface Font {
 
 const defaultFontSource = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf";
 
-const sources = Object.values(APIv2).map((metadata): [Font, string][] => {
-  const sources: [Font, string][] = []
+const listOfFontSourceEntries = Object.values(APIv2).map((metadata): [Font, string][] => {
+  const fontSourceEntries: [Font, string][] = []
   const family = metadata.family
   for (const weight of Object.keys(metadata.variants)) {
     for(const style of Object.keys(metadata.variants[weight])) {
       const source = metadata.variants[weight][style]["latin"].url["truetype"]
-      sources.push([{family, weight, style}, source])
+      fontSourceEntries.push([{family, weight, style}, source])
     }
   }
-  return sources
+  return fontSourceEntries
 })
 
-const FontSources = new Map(([] as [Font, string][]).concat(...sources))
-FontSources.set(
+const fontSourceEntries = ([] as [Font, string][]).concat(...listOfFontSourceEntries)
+
+const fontSourceMap = new Map(fontSourceEntries)
+
+fontSourceMap.set(
   {family: "DejaVuSans", weight: "400", style: "normal"},
   "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 )
@@ -37,7 +40,7 @@ interface Params extends Font {
 
 function render({text, size, color, ...font}: Params): Uint8Array {
   const canvas = createCanvas(100, 100);
-  canvas.registerFont(FontSources.get(font) || defaultFontSource, font)
+  canvas.registerFont(fontSourceMap.get(font) || defaultFontSource, font)
   const context = canvas.getContext("2d");
   context.fillStyle = color;
   context.font = `"${font.weight}" "${font.style}"  "${size}" "${font.family}"`;
