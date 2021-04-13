@@ -1,7 +1,9 @@
 /// <reference path="./deployctl.d.ts" />
 
 import { createCanvas } from "https://deno.land/x/canvas@v1.1.3/mod.ts";
-import { APIv2 } from "https://esm.sh/google-font-metadata@2.0.2";
+// import { APIv2 } from "https://esm.sh/google-font-metadata@2.0.2";
+
+const APIv2 = {}
 
 interface Font {
   family: string;
