@@ -64,7 +64,7 @@ interface Parameters {
 async function render(params: Parameters): Promise<string> {
   const stylesheet = await generateStylesheet(params.family, params.weight);
   const image = `<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" height='${params.size}'>
+<svg xmlns="http://www.w3.org/2000/svg" height='${parseInt(params.size)*1.3}'>
 <style type="text/css"><![CDATA[${stylesheet}]]></style>
 <text x="10" y="${params.size}" font-size="${params.size}" font-family="${params.family}">${params.text}</text>
 </svg>`;
