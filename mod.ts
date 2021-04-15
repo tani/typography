@@ -1,7 +1,6 @@
 /// <reference path="./deployctl.d.ts" />
-// @deno-types="https://esm.sh/@types/css/index.d.ts"
-import * as css from "https://esm.sh/css";
-import traverse from "https://cdn.skypack.dev/traverse?dts";
+import * as csstree from "https://esm.sh/css-tree";
+import traverse from "https://esm.sh/traverse";
 import * as base64 from "https://deno.land/std/encoding/base64.ts";
 
 async function fetchStylesheetFromGoogleFonts(
@@ -29,7 +28,7 @@ async function fetchAllRemoteFonts(
   return new Map(await Promise.all(entriesPromised));
 }
 
-function extractUrls(tree: css.Stylesheet) {
+function extractUrls(tree: csstree.CssNode) {
   return traverse(tree).reduce(function (acc, x) {
     const p = new RegExp("https://.*\\.(?:woff2|woff|ttf|otf)");
     const m = p.exec(x);
@@ -42,7 +41,7 @@ async function generateStylesheet(
   weight: string,
 ): Promise<string> {
   const stylesheet = await fetchStylesheetFromGoogleFonts(family, weight);
-  const tree = css.parse(stylesheet);
+  const tree = csstree.parse(stylesheet);
   const urls = extractUrls(tree);
   const urlToDataurl = await fetchAllRemoteFonts(urls);
   const newTree = traverse(tree).map(function (x) {
@@ -52,7 +51,7 @@ async function generateStylesheet(
       this.update(x.replace(m[0], urlToDataurl.get(m[0])));
     }
   });
-  return css.stringify(newTree, { compress: true });
+  return csstree.generate(newTree);
 }
 
 interface Parameters {
