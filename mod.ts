@@ -1,6 +1,6 @@
 /// <reference path="./deployctl.d.ts" />
 import * as csstree from "https://esm.sh/css-tree";
-import traverse from "https://esm.sh/traverse";
+import traverse from "https://cdn.skypack.dev/traverse?dts";
 import * as base64 from "https://deno.land/std/encoding/base64.ts";
 
 async function fetchStylesheetFromGoogleFonts(
