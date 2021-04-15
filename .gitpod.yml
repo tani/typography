@@ -4,7 +4,8 @@ tasks:
       /home/gitpod/.deno/bin/deno completions bash > /home/gitpod/.bashrc.d/90-deno && 
       echo 'export DENO_INSTALL="/home/gitpod/.deno"' >> /home/gitpod/.bashrc.d/90-deno && 
       echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> /home/gitpod/.bashrc.d/90-deno &&
-      /home/gitpod/.deno/bin/deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+      /home/gitpod/.deno/bin/deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts &&
+      source /home/gitpod/.bashrc
 vscode:
   extensions:
     - denoland.vscode-deno@3.2.0:5307ff8c1db475f21d402d09ac4a6bb3
