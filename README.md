@@ -29,3 +29,9 @@ Please visit https://typography.deno.dev/ . You can explore your favorite fonts!
 Copyright &copy; 2021 TANIGUCHI Masaya All Rights Reserved.
 
 This software is licensed under ther MIT license.
+
+## Acknowledgement
+
+The author of this project is supported by [Gitpod](https://gitpod.io/).
+They provide the Professional Open Source Plan to him.
+He uses Gitpod to write this project.
