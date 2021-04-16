@@ -1,7 +1,8 @@
+/// <reference path="./deployctl.d.ts" />
+
 import * as csstree from "https://esm.sh/css-tree";
 import * as base64 from "https://deno.land/std/encoding/base64.ts";
-import { createElement as h } from "https://esm.sh/react";
-import { renderToString } from 'https://esm.sh/react-dom/server';
+import { XmlEntities } from "https://deno.land/x/html_entities/mod.js";
 
 async function fetchStylesheetFromGoogleFonts(
   family: string,
@@ -54,17 +55,15 @@ interface Parameters {
   family: string;
   size: string;
   weight: string;
+  color: string;
 }
 
 async function render(params: Parameters): Promise<string> {
   const stylesheet = await generateStylesheet(params.family, params.weight);
-  const image = (
-    <svg xmlns="http://www.w3.org/2000/svg" height={parseInt(params.size) * 1.3}>
-      <style>{`<![CDATA[${stylesheet}]]>`}</style>
-      <text x="10" y={params.size} font-size={params.size} font-family={params.family}>{params.text}</text>
-    </svg>
-  );
-  return renderToString(image);
+  return `<svg xmlns="http://www.w3.org/2000/svg" height="${parseInt(params.size) * 1.3}">
+<style><![CDATA[${stylesheet}]]></style>
+<text fill="${XmlEntities.encode(params.color)}" x="10" y="${XmlEntities.encode(params.size)}" font-size="${XmlEntities.encode(params.size)}" font-family="${XmlEntities.encode(params.family)}">${XmlEntities.encode(params.text)}</text>
+</svg>`
 }
 
 self.addEventListener("fetch", async (event) => {
@@ -77,6 +76,7 @@ self.addEventListener("fetch", async (event) => {
       family: "Antonio",
       weight: "100",
       size: "20",
+      color: "black",
       ...Object.fromEntries(entries),
     };
     const body = await render(params);
