@@ -5,11 +5,15 @@ The service is running on [Deno deploy](https://deno.com/deploy).
 
 ## API
 
-You can use any font listed on Google Fonts. You just hitted the URL like;
+You can use any font listed on [Google Fonts](https://fonts.google.com/). You just hitted the URL like;
 
 ```ts
 `https://typography.deno.dev/render?text=${text as string}&size=${size as number}&family=${family as string}&weight=${weight as number}`
 ```
+
+## Preview
+
+Please visit https://typography.deno.dev/ . You can explore your favorite fonts!
 
 ## License and Copyright
 
