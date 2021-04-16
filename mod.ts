@@ -52,13 +52,13 @@ async function generateStylesheet(
 
 async function render(params: URLSearchParams): Promise<string> {
   const size = XmlEntities.encode(params.get("size") || "20");
+  const text = XmlEntities.encode(params.get("text") || "");
   const height = XmlEntities.encode(params.get("height") || (parseInt(size) * 1.3).toString());
-  const width = XmlEntities.encode(params.get("width") || (parseInt(size) * 0.65).toString());
+  const width = XmlEntities.encode(params.get("width") || (parseInt(size) * 0.65 * text.length).toString());
   const color = XmlEntities.encode(params.get("color") || "#000000");
   const family = XmlEntities.encode(params.get("family") || "Abel");
   const weight = XmlEntities.encode(params.get("weight") || "400");
   const stylesheet = await generateStylesheet(family, weight);
-  const text = XmlEntities.encode(params.get("text") || "");
   return `<svg xmlns="http://www.w3.org/2000/svg" height="${height}" width="${width}">
     <style><![CDATA[${stylesheet}]]></style>
     <text
