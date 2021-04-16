@@ -5,7 +5,12 @@ The service is running on [Deno deploy](https://deno.com/deploy).
 
 On some web pages such as GitHub, we can't use enough CSS for user content, especially font settings. Our project converts the text into an image typeset in the specified font.
 
-Technically, we typeset by downloading the specified font from Google Fonts and embedding it in SVG along with the text. These software are then deployed on the edge network by Deno Deploy to serve images on demand.
+Technically, we typeset by downloading the specified font from Google Fonts and embedding it in SVG along with the text. These software are then deployed on the edge network by Deno Deploy to serve images on demand (Fig. 1).
+
+<p align="center">
+  <img src="./misc/overview.drawio.svg" /><br />
+  Fig. 1. Overview
+</p>
 
 ## API
 
