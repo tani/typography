@@ -85,6 +85,8 @@ self.addEventListener("fetch", async (event) => {
       }),
     );
   } else {
-    event.respondWith(await fetch(new URL("index.html", import.meta.url)));
+    const response = await fetch(new URL("index.html", import.meta.url));
+    response.headers.set("Content-Type", "text/html");
+    event.respondWith(response);
   }
 });
