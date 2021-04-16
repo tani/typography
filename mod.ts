@@ -107,7 +107,7 @@ self.addEventListener("fetch", async (event) => {
           url() {
             return window.location.protocol+'//'+window.location.host+'/render?'+
               '&text=' + encodeURIComponent(this.text) +
-              '&family=' + this.family.replace(' ', '+') +
+              '&family=' + this.family.replace(/ /g, '+') +
               '&weight=' + this.weight +
               '&size=' + this.size
           }
