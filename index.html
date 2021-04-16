@@ -11,6 +11,7 @@
             el: '#app',
             data() {
                 return {
+                    urlBase: window.location.protocol+'//'+window.location.host+'/render?',
                     fonts: Object.fromEntries(Object.values(APIv2).map(({family, weights})=>[family, weights])),
                     family: 'Abel',
                     weight: '400',
@@ -21,7 +22,7 @@
             },
             computed: {
                 url() {
-                    return window.location.protocol+'//'+window.location.host+'/render?'+
+                    return this.urlBase +
                         'text=' + encodeURIComponent(this.text) +
                         '&family=' + this.family.replace(/ /g, '+') +
                         '&weight=' + this.weight +
@@ -32,20 +33,20 @@
         })
     </script>
 </head>
-<body class="container">
-    <h1 class="text-center mb-5 mt-3">
-        <img src="https://typography.deno.dev/render?text=Typography&family=Lobster&weight=400&size=40" alt="Typography" /><br />
-        <a href="https://github.com/tani/typography" style="text-decoration: none;">
-            <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/tani/typography?style=social">
-        </a>
-        <a href="https://deno.com/deploy" style="text-decoration: none;">
-            <img src="https://img.shields.io/badge/deno-deploy-yellowgreen" alt="deno deploy" />
-        </a>
-        <a href="https://fonts.google.com" style="text-decoration: none;">
-            <img src="https://img.shields.io/badge/google-fonts-red" alt="google fonts" />
-        </a>
-    </h1>
-    <div id="app">
+<body>
+    <div id="app" class="container">
+        <h1 class="text-center mb-5 mt-3">
+            <img :src="urlBase + 'text=Typography&family=Lobster&weight=400&size=40'" alt="Typography" /><br />
+            <a href="https://github.com/tani/typography" style="text-decoration: none;">
+                <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/tani/typography?style=social">
+            </a>
+            <a href="https://deno.com/deploy" style="text-decoration: none;">
+                <img src="https://img.shields.io/badge/deno-deploy-yellowgreen" alt="deno deploy" />
+            </a>
+            <a href="https://fonts.google.com" style="text-decoration: none;">
+                <img src="https://img.shields.io/badge/google-fonts-red" alt="google fonts" />
+            </a>
+        </h1>
         <div class="row mb-1">
             <label for="family" class="col-sm-2 col-form-label">Family </label>
             <div class="col-sm-10">

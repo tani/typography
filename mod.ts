@@ -60,10 +60,19 @@ interface Parameters {
 
 async function render(params: Parameters): Promise<string> {
   const stylesheet = await generateStylesheet(params.family, params.weight);
-  return `<svg xmlns="http://www.w3.org/2000/svg" height="${parseInt(params.size) * 1.3}">
-<style><![CDATA[${stylesheet}]]></style>
-<text fill="${XmlEntities.encode(params.color)}" x="10" y="${XmlEntities.encode(params.size)}" font-size="${XmlEntities.encode(params.size)}" font-family="${XmlEntities.encode(params.family)}">${XmlEntities.encode(params.text)}</text>
-</svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" height="${parseInt(params.size) * 1.3}" width="${parseInt(params.size) * 0.70 * params.text.length}">
+    <style><![CDATA[${stylesheet}]]></style>
+    <text
+      fill="${XmlEntities.encode(params.color)}"
+      x="50%"
+      y="50%"
+      text-anchor="middle"
+      dominant-baseline="central"
+      font-size="${XmlEntities.encode(params.size)}"
+      font-family="${XmlEntities.encode(params.family)}">
+      ${XmlEntities.encode(params.text)}
+    </text>
+  </svg>`
 }
 
 self.addEventListener("fetch", async (event) => {
