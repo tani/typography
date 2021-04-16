@@ -3,6 +3,10 @@
 The typography project serves formatted text with web fonts as a svg image.
 The service is running on [Deno deploy](https://deno.com/deploy).
 
+On some web pages such as GitHub, we can't use enough CSS for user content, especially font settings. Our project converts the text into an image typeset in the specified font.
+
+Technically, we typeset by downloading the specified font from Google Fonts and embedding it in SVG along with the text. These software are then deployed on the edge network by Deno Deploy to serve images on demand.
+
 ## API
 
 You can use any font listed on [Google Fonts](https://fonts.google.com/). You just hitted the URL like;
