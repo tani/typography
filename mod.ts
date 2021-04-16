@@ -86,7 +86,14 @@ self.addEventListener("fetch", async (event) => {
     );
   } else {
     const response = await fetch(new URL("index.html", import.meta.url));
-    response.headers.set("Content-Type", "text/html");
-    event.respondWith(response);
+    const body = await response.text();
+    event.respondWith(
+      new Response(body, {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html",
+        },
+      }),
+    );
   }
 });
