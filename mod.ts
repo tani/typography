@@ -50,27 +50,26 @@ async function generateStylesheet(
   return csstree.generate(tree);
 }
 
-interface Parameters {
-  text: string;
-  family: string;
-  size: string;
-  weight: string;
-  color: string;
-}
-
-async function render(params: Parameters): Promise<string> {
-  const stylesheet = await generateStylesheet(params.family, params.weight);
-  return `<svg xmlns="http://www.w3.org/2000/svg" height="${parseInt(params.size) * 1.3}" width="${parseInt(params.size) * 0.70 * params.text.length}">
+async function render(params: URLSearchParams): Promise<string> {
+  const size = XmlEntities.encode(params.get("size") || "20");
+  const height = XmlEntities.encode(params.get("height") || (parseInt(size) * 1.3).toString());
+  const width = XmlEntities.encode(params.get("width") || (parseInt(size) * 0.65).toString());
+  const color = XmlEntities.encode(params.get("color") || "#000000");
+  const family = XmlEntities.encode(params.get("family") || "Abel");
+  const weight = XmlEntities.encode(params.get("weight") || "400");
+  const stylesheet = await generateStylesheet(family, weight);
+  const text = XmlEntities.encode(params.get("text") || "");
+  return `<svg xmlns="http://www.w3.org/2000/svg" height="${height}" width="${width}">
     <style><![CDATA[${stylesheet}]]></style>
     <text
-      fill="${XmlEntities.encode(params.color)}"
+      fill="${color}"
       x="50%"
       y="50%"
       text-anchor="middle"
       dominant-baseline="central"
-      font-size="${XmlEntities.encode(params.size)}"
-      font-family="${XmlEntities.encode(params.family)}">
-      ${XmlEntities.encode(params.text)}
+      font-size="${size}"
+      font-family="${family}">
+      ${text}
     </text>
   </svg>`
 }
@@ -78,17 +77,7 @@ async function render(params: Parameters): Promise<string> {
 self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/render")) {
-    const entries: [string, string][] = [];
-    url.searchParams.forEach((v, k) => entries.push([k, v]))
-    const params: Parameters = {
-      text: "",
-      family: "Antonio",
-      weight: "100",
-      size: "20",
-      color: "black",
-      ...Object.fromEntries(entries),
-    };
-    const body = await render(params);
+    const body = await render(url.searchParams);
     event.respondWith(
       new Response(body, {
         status: 200,
