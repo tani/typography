@@ -1,6 +1,7 @@
-/// <reference path="./deployctl.d.ts" />
 import * as csstree from "https://esm.sh/css-tree";
 import * as base64 from "https://deno.land/std/encoding/base64.ts";
+import { createElement as h } from "https://esm.sh/react";
+import { renderToString } from 'https://esm.sh/react-dom/server';
 
 async function fetchStylesheetFromGoogleFonts(
   family: string,
@@ -57,23 +58,26 @@ interface Parameters {
 
 async function render(params: Parameters): Promise<string> {
   const stylesheet = await generateStylesheet(params.family, params.weight);
-  const image = `<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" height='${parseInt(params.size) * 1.3}'>
-<style type="text/css"><![CDATA[${stylesheet}]]></style>
-<text x="10" y="${params.size}" font-size="${params.size}" font-family="${params.family}">${params.text}</text>
-</svg>`;
-  return image;
+  const image = (
+    <svg xmlns="http://www.w3.org/2000/svg" height={parseInt(params.size) * 1.3}>
+      <style>{`<![CDATA[${stylesheet}]]>`}</style>
+      <text x="10" y={params.size} font-size={params.size} font-family={params.family}>{params.text}</text>
+    </svg>
+  );
+  return renderToString(image);
 }
 
 self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/render")) {
+    const entries: [string, string][] = [];
+    url.searchParams.forEach((v, k) => entries.push([k, v]))
     const params: Parameters = {
       text: "",
       family: "Antonio",
       weight: "100",
       size: "20",
-      ...Object.fromEntries(url.searchParams),
+      ...Object.fromEntries(entries),
     };
     const body = await render(params);
     event.respondWith(
