@@ -27,7 +27,8 @@ async function fetchAllRemoteFonts(
   const entries: Promise<[string, string]>[] = [];
   csstree.walk(tree, {
     visit: "Url",
-    enter: (node: csstree.Url) => entries.push(fetchRemoteFont(node.value.value)),
+    enter: (node: csstree.Url) =>
+      entries.push(fetchRemoteFont(node.value.value)),
   });
   return new Map(await Promise.all(entries));
 }
@@ -84,77 +85,6 @@ self.addEventListener("fetch", async (event) => {
       }),
     );
   } else {
-    const body = `<!doctype html>
-    <html lang="en">
-    <head>
-      <meta charset="utf-8"/>
-      <title>Typography</title>
-      <script type="module">
-      import Vue from 'https://cdn.jsdelivr.net/npm/vue@2/dist/vue.esm.browser.js'
-      import { APIv2 } from 'https://esm.sh/google-font-metadata@2'
-      const app = new Vue({
-        el: '#app',
-        data() {
-          return {
-            fonts: Object.fromEntries(Object.values(APIv2).map(({family, weights})=>[family, weights])),
-            family: 'Abel',
-            weight: '400',
-            text: 'Typography',
-            size: 20
-          }
-        },
-        computed: {
-          url() {
-            return window.location.protocol+'//'+window.location.host+'/render?'+
-              '&text=' + encodeURIComponent(this.text) +
-              '&family=' + this.family.replace(/ /g, '+') +
-              '&weight=' + this.weight +
-              '&size=' + this.size
-          }
-        }
-      })
-      </script>
-    </head>
-    <body>
-      <h1>Typography</h1>
-      <div id="app">
-        <label>
-          Family:
-          <select name="family" v-model="family">
-            <option v-for="family in Object.keys(fonts)" :value="family">
-              {{ family }}
-            </option>
-          </select>
-        </label><br/>
-        <label>
-          Weight:
-          <select name="weight" v-model="weight">
-            <option v-for="weight in fonts[family]" :value="weight">
-              {{ weight }}
-            </option>
-          </select>
-        </label><br/>
-        <label>
-          Size:
-          <input type="number" v-model="size" />
-        </label><br/>
-        <label>
-          Text:
-          <input type="text" v-model="text" />
-        </label><br/>
-        URL is <pre><code>{{ url }}</code></pre>
-        <img :height="size * 1.3" :src="url" />
-      </div>
-    </body>
-    </html>
-    `
-    event.respondWith(
-      new Response(body, {
-        status: 200,
-        headers: {
-          "content-type": "text/html",
-        },
-      }),
-    );
+    event.respondWith(await fetch(new URL("index.html", import.meta.url)));
   }
 });
