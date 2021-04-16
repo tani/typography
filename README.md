@@ -1,7 +1,7 @@
 # ![Typography](https://typography.deno.dev/render?text=Typography&size=30&family=Lobster&weight=400)
 
 The typography project serves formatted text with web fonts as a svg image.
-The service are running on [Deno deploy](https://deno.com/deploy).
+The service is running on [Deno deploy](https://deno.com/deploy).
 
 ## API
 
