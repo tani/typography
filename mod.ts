@@ -3,7 +3,7 @@
 import * as csstree from "https://esm.sh/css-tree@1.1.3";
 import * as base64 from "https://deno.land/std@0.91.0/encoding/base64.ts";
 import { XmlEntities } from "https://deno.land/x/html_entities@v1.0/mod.js";
-import { gzip } from "https://deno.land/x/compress@v0.3.6/mod.ts";
+import { gzip } from "https://deno.land/x/compress@v0.3.6/gzip/gzip.ts";
 
 async function fetchStylesheetFromGoogleFonts(
   family: string,
