@@ -3,7 +3,7 @@
 import * as csstree from "https://esm.sh/css-tree@1.1.3";
 import * as base64 from "https://deno.land/std@0.91.0/encoding/base64.ts";
 import { XmlEntities } from "https://deno.land/x/html_entities@v1.0/mod.js";
-import { compress } from "https://deno.land/x/brotli@v0.1.4/mod.ts";
+import { gzip } from "https://deno.land/x/compress@v0.3.6/mod.ts";
 
 async function fetchStylesheetFromGoogleFonts(
   family: string,
@@ -79,26 +79,26 @@ self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/render")) {
     const body = await render(url.searchParams);
-    const bodyz = compress(new TextEncoder().encode(body));
+    const bodyz = gzip(new TextEncoder().encode(body), { level: 1 });
     event.respondWith(
       new Response(bodyz, {
         status: 200,
         headers: {
           "Content-Type": "image/svg+xml",
-          "Content-Encoding": "br"
+          "Content-Encoding": "gzip"
         },
       }),
     );
   } else {
     const response = await fetch(new URL("index.html", import.meta.url));
     const body = await response.text();
-    const bodyz = compress(new TextEncoder().encode(body));
+    const bodyz = gzip(new TextEncoder().encode(body), { level: 1 });
     event.respondWith(
       new Response(bodyz, {
         status: 200,
         headers: {
           "Content-Type": "text/html",
-          "Content-Encoding": "br"
+          "Content-Encoding": "gzip"
         },
       }),
     );
