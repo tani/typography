@@ -1,4 +1,6 @@
-# ![Typography](https://typography.deno.dev/render?text=Typography&family=Lobster&weight=400&size=40&color=%23008cb4)
+<p align="center">
+  <img src="https://typography.deno.dev/render?text=Typography&family=Lobster&weight=400&size=40&color=%23008cb4" alt="Typography" />
+</p>
 
 The typography project serves formatted text with web fonts as a svg image.
 The service is running on [Deno deploy](https://deno.com/deploy).
