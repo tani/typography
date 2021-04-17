@@ -79,7 +79,7 @@ self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/render")) {
     const body = await render(url.searchParams);
-    const bodyz = gzip(new TextEncoder().encode(body), { level: 9 });
+    const bodyz = gzip(new TextEncoder().encode(body));
     event.respondWith(
       new Response(bodyz, {
         status: 200,
@@ -93,7 +93,7 @@ self.addEventListener("fetch", async (event) => {
     new ReadableStream()
     const response = await fetch(new URL("index.html", import.meta.url));
     const body = await response.text();
-    const bodyz = gzip(new TextEncoder().encode(body), { level: 9 });
+    const bodyz = gzip(new TextEncoder().encode(body));
     event.respondWith(
       new Response(bodyz, {
         status: 200,
