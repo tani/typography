@@ -1,7 +1,7 @@
 /// <reference path="./deployctl.d.ts" />
 
 import * as csstree from "https://esm.sh/css-tree@1.1.3";
-import { gzip } from "https://esm.sh/pako@2.0.3";
+import * as pako from "https://esm.sh/pako@2.0.3";
 import * as base64 from "https://deno.land/std@0.91.0/encoding/base64.ts";
 import { XmlEntities } from "https://deno.land/x/html_entities@v1.0/mod.js";
 
@@ -79,7 +79,7 @@ self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/render")) {
     const body = await render(url.searchParams);
-    const bodyz = gzip(new TextEncoder().encode(body));
+    const bodyz = pako.gzip(new TextEncoder().encode(body));
     event.respondWith(
       new Response(bodyz, {
         status: 200,
@@ -93,7 +93,7 @@ self.addEventListener("fetch", async (event) => {
     new ReadableStream()
     const response = await fetch(new URL("index.html", import.meta.url));
     const body = await response.text();
-    const bodyz = gzip(new TextEncoder().encode(body));
+    const bodyz = pako.gzip(new TextEncoder().encode(body));
     event.respondWith(
       new Response(bodyz, {
         status: 200,
