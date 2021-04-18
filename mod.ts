@@ -90,7 +90,6 @@ self.addEventListener("fetch", async (event) => {
       }),
     );
   } else {
-    new ReadableStream()
     const response = await fetch(new URL("index.html", import.meta.url));
     const body = await response.text();
     const bodyz = pako.gzip(new TextEncoder().encode(body));
