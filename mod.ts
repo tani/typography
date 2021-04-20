@@ -91,10 +91,8 @@ self.addEventListener("fetch", async (event) => {
     );
   } else {
     const response = await fetch(new URL("index.html", import.meta.url));
-    const body = await response.text();
-    const bodyz = pako.gzip(new TextEncoder().encode(body));
     event.respondWith(
-      new Response(bodyz, {
+      new Response(response.body, {
         status: 200,
         headers: {
           "Content-Type": "text/html",
