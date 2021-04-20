@@ -95,8 +95,7 @@ self.addEventListener("fetch", async (event) => {
       new Response(response.body, {
         status: 200,
         headers: {
-          "Content-Type": "text/html",
-          "Content-Encoding": "gzip"
+          "Content-Type": "text/html"
         },
       }),
     );
